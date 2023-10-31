@@ -8,8 +8,6 @@ class CustomUserSerializer(ModelSerializer):
         super_user_status = validated_data.pop('is_superuser', None)
         instance = self.Meta.model(**validated_data)
 
-        print(password)
-
         if super_user_status:
             instance.is_superuser = False
         instance.save()

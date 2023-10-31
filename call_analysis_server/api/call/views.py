@@ -7,7 +7,7 @@ from api.call.serializers import CallSerializer
 
 
 # Create your views here.
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 class CallRecordingAPIView(ModelViewSet):
     queryset = CallRecording.objects.all()
     serializer_class = CallSerializer

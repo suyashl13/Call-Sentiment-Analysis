@@ -8,7 +8,7 @@ from api.user.models import CustomUser
 class CallRecording(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     customer_name = models.CharField(max_length=50, default='')
-    audio_sample = models.FileField()
+    audio_sample = models.FileField(upload_to='audio_samples')
 
     status = models.CharField(max_length=20, default='Added in Queue')
 
