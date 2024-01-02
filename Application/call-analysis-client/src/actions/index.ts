@@ -1,0 +1,1 @@
+export { handleGoogleLogin as signIn } from './auth-action';
