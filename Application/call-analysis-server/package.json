@@ -75,6 +75,14 @@
       "ts"
     ],
     "rootDir": "src",
+    "moduleNameMapper": {
+      "@resources": "<rootDir>/resources",
+      "@shared": "<rootDir>/shared",
+      "@email": "<rootDir>/email",
+      "@auth": "<rootDir>/auth",
+      "@config": "<rootDir>/config",
+      "@database": "<rootDir>/database"
+    },
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

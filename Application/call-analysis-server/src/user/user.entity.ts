@@ -1,4 +1,5 @@
 import { IsEmail } from "class-validator";
+import { PhoneCall } from "src/call/entities/phone-call.entity";
 import {
   Column,
   CreateDateColumn,
@@ -28,6 +29,9 @@ class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @OneToMany(() => PhoneCall, (phoneCall) => phoneCall.user)
+  phoneCalls: PhoneCall[];
 
   @CreateDateColumn({ name: "created_at" })
   createdAt: Date;
