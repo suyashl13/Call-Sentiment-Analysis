@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function EmployeePage() {
+export default function EmployeePage(props: any) {
   return (
-    <div>EmployeePage</div>
-  )
+    <div>{JSON.stringify(props)}</div>
+  );
 }
