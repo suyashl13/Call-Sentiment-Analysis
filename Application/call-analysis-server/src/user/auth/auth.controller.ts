@@ -13,10 +13,12 @@ import { AuthService } from "./auth.service";
 import { CheckTokenExpiryGuard } from "../../common/guards/check-token-expiry.guard";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { User } from "src/common/types";
+import { UserService } from "../user.service";
+import { JwtService } from "@nestjs/jwt";
 
 @Controller("auth")
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private readonly userService: UserService, private readonly jwtService: JwtService) {}
 
   @Get("redirect")
   redirectToGoogleAuth(@Req() req: ExpressRequest, @Res() res: Response) {
@@ -29,14 +31,18 @@ export class AuthController {
 
   @Get("google/callback")
   @UseGuards(AuthGuard("google"))
-  googleLoginCallback(@Request() req: any, @Res() res: Response) {
+  async googleLoginCallback(@Request() req: any, @Res() res: Response) {
     const googleToken = req.user.accessToken;
     const googleRefreshToken = req.user.refreshToken;
+
+    const user = await this.userService.findByEmail(req.user.email);
+    const encryptedJwtUser = this.jwtService.sign({ user: user }, { secret: process.env.JWT_SECRET, expiresIn: "365d" });
 
     res.cookie("access_token", googleToken, { httpOnly: true });
     res.cookie("refresh_token", googleRefreshToken, {
       httpOnly: true,
     });
+    res.cookie("jwt", encryptedJwtUser, { httpOnly: false });
 
     if (req.user.role === 0) {
       res.redirect("http://localhost:3300/admin");

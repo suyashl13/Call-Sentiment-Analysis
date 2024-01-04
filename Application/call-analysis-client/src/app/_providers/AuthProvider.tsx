@@ -24,22 +24,29 @@ export default function AuthProvider({
   >("loading");
 
   const fetchUser = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URI}/auth/profile`, {
-      method: "GET",
-      credentials: 'include',
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URI}/auth/profile`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (response.ok) {
-      const user = await response.json();
-      setUser(user);
-      setStatus("authenticated");
+      try {
+        const user = await response.json();
+        setUser(user);
+        setStatus("authenticated");
+      } catch (error) {
+        setStatus("unauthenticated");
+      }
     } else {
       setStatus("unauthenticated");
     }
-  }
+  };
 
   React.useEffect(() => {
     fetchUser();

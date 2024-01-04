@@ -12,8 +12,7 @@ export default function EmployeePage() {
         'Content-Type': 'application/json',
       },
       credentials: 'include'
-    })
-    console.log(await a.json())
+    });
   }
 
   const { user, status } = useAuth();

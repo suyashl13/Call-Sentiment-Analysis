@@ -27,7 +27,7 @@ class User {
   @Column({ name: "profile_picture" })
   profilePicture: string;
 
-  @Column({ default: true })
+  @Column({ default: true }) // TODO: change to false in production make it true by admin consent.
   isActive: boolean;
 
   @OneToMany(() => PhoneCall, (phoneCall) => phoneCall.createdBy)
