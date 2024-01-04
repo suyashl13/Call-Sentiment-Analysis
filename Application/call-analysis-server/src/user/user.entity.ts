@@ -30,7 +30,7 @@ class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @OneToMany(() => PhoneCall, (phoneCall) => phoneCall.user)
+  @OneToMany(() => PhoneCall, (phoneCall) => phoneCall.createdBy)
   phoneCalls: PhoneCall[];
 
   @CreateDateColumn({ name: "created_at" })

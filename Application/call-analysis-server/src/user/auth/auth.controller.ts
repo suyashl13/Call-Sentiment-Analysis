@@ -11,6 +11,8 @@ import { AuthGuard } from "@nestjs/passport";
 import { Request as ExpressRequest, Response } from "express";
 import { AuthService } from "./auth.service";
 import { CheckTokenExpiryGuard } from "../../common/guards/check-token-expiry.guard";
+import { CurrentUser } from "src/common/decorators/current-user.decorator";
+import { User } from "src/common/types";
 
 @Controller("auth")
 export class AuthController {
@@ -45,10 +47,10 @@ export class AuthController {
 
   @UseGuards(CheckTokenExpiryGuard)
   @Get("profile")
-  async getProfile(@Request() req) {
+  async getProfile(@Request() req: any, @CurrentUser() user: User) {
     const accessToken = req.cookies["access_token"];
     if (accessToken)
-      return (await this.authService.getProfile(accessToken)).data;
+      return user;
     throw new UnauthorizedException("No access token");
   }
 

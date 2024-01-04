@@ -10,7 +10,7 @@ export class CallService {
     async createPhoneCall(phoneCall: Partial<PhoneCall>, userId: string){
         const unsavedPhoneCall = this.phoneCallRepository.create({
             ...phoneCall,
-            user: { id: userId }
+            createdBy: { id: userId }
         });
         unsavedPhoneCall.callRecordingStatus = 'pending';
         return this.phoneCallRepository.save(unsavedPhoneCall);
@@ -19,9 +19,12 @@ export class CallService {
 
     async getPhoneCallsByUserId(userId: string, page: number = 1, limit: number = 10) {
         return this.phoneCallRepository.find({
-            where: { user: { id: userId } },
+            where: { createdBy: { id: userId } },
             skip: (page - 1) * limit,
-            take: limit
+            take: limit,
+            relations: {
+                createdBy: true,
+            }
         });
     }
 }

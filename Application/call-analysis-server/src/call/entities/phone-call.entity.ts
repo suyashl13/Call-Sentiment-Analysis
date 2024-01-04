@@ -15,7 +15,7 @@ export class PhoneCall {
     customerPhone: string
 
     @ManyToOne(() => User, (user) => user.phoneCalls)
-    user: User
+    createdBy: User
 
     @Column({ name: 'call_recording_url' })
     callRecordingUrl: string
