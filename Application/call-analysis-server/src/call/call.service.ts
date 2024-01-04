@@ -15,4 +15,13 @@ export class CallService {
         unsavedPhoneCall.callRecordingStatus = 'pending';
         return this.phoneCallRepository.save(unsavedPhoneCall);
     }
+
+
+    async getPhoneCallsByUserId(userId: string, page: number = 1, limit: number = 10) {
+        return this.phoneCallRepository.find({
+            where: { user: { id: userId } },
+            skip: (page - 1) * limit,
+            take: limit
+        });
+    }
 }

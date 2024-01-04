@@ -24,6 +24,15 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    return await this.userRepository.findOne({ where: { email: email } });
+    return await this.userRepository.findOne({ where: { email: email }, select: {
+      id: true,
+      name: true,
+      email: true,
+      profilePicture: true,
+      role: true,
+      isActive: true,
+      createdAt: true,
+      updatedAt: true
+    } });
   }
 }
