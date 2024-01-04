@@ -1,7 +1,16 @@
 import React from 'react'
 
-export default function AdminPage() {
+export default async function AdminPage() {
+
+  const user = await (await fetch('http://localhost:3000/auth/profile', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include'
+  })).json()
+
   return (
-    <div>AdminPage</div>
+    <div>{ JSON.stringify(user) }</div>
   )
 }

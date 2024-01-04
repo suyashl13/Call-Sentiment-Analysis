@@ -1,4 +1,5 @@
 'use client'
+import { useAuth } from '@/app/_providers/AuthProvider';
 import { Button } from '@nextui-org/react';
 import React from 'react'
 
@@ -15,7 +16,12 @@ export default function EmployeePage() {
     console.log(await a.json())
   }
 
+  const { user, status } = useAuth();
+
   return (
-    <div><Button size="lg" onClick={handleClick}>Fetch Data</Button></div>
+    <div>
+      {JSON.stringify(user)}
+      {status}
+      <Button size="lg" onClick={handleClick}>Fetch Data</Button></div>
   );
 }
