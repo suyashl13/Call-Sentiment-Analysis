@@ -6,7 +6,7 @@ import React from 'react'
 export default function EmployeePage() {
 
   const handleClick = async () => {
-    const a = await fetch('http://localhost:3000/employee-phone-call', {
+    const a = await fetch('http://localhost:3000/employee/phone-call/sdaasd', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
