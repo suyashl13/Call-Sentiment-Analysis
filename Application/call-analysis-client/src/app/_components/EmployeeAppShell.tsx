@@ -37,6 +37,7 @@ import {
 } from "react-icons/fi";
 import { useAuth } from "../_providers/AuthProvider";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const EmployeeShell = ({ children }: { children: React.ReactNode }) => {
   const sidebar = useDisclosure();
@@ -124,22 +125,25 @@ export const EmployeeShell = ({ children }: { children: React.ReactNode }) => {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <NavItem icon={FiHome}>Home</NavItem>
-        <NavItem icon={FiPhone}>See Calls</NavItem>
-        <NavItem icon={FiPlus}>Add Call</NavItem>
+        <Link href="/employee">
+          <NavItem icon={FiHome}>Home</NavItem>
+        </Link>
+        <Link href="/employee/calls">
+          <NavItem icon={FiPhone}>See Calls</NavItem>
+        </Link>
+        <Link href="/employee/calls/create">
+          <NavItem icon={FiPlus}>Add Call</NavItem>
+        </Link>
         <Box color="red.500">
           <NavItem
             onClick={async function () {
               try {
-                await fetch(
-                  "http://localhost:3000/auth/logout",
-                  {
-                    credentials: "include",
-                    method: "GET",
-                  }
-                );
+                await fetch("http://localhost:3000/auth/logout", {
+                  credentials: "include",
+                  method: "GET",
+                });
               } catch (error) {
-                document.cookie = '';
+                document.cookie = "";
               }
               replace("/sign-in");
             }}
@@ -224,9 +228,7 @@ export const EmployeeShell = ({ children }: { children: React.ReactNode }) => {
                 ml="4"
                 size="sm"
                 name="anubra266"
-                src={
-                  user?.profilePicture || "https://bit.ly/dan-abramov"
-                }
+                src={user?.profilePicture || "https://bit.ly/dan-abramov"}
                 cursor="pointer"
               />
             ) : (

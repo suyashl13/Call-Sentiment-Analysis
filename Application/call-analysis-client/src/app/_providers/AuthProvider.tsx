@@ -24,9 +24,8 @@ export default function AuthProvider({
   >("loading");
 
   const fetchUser = async () => {
-    let response: Promise<Response> | any;
     try {
-      response = await fetch(
+      const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URI}/auth/profile`,
         {
           method: "GET",
@@ -36,19 +35,19 @@ export default function AuthProvider({
           },
         }
       );
-    } catch (error) {
-      setStatus("unauthenticated");
-    }
 
-    if (response.ok) {
-      try {
-        const user = await response.json();
-        setUser(user);
-        setStatus("authenticated");
-      } catch (error) {
+      if (response.ok) {
+        try {
+          const user = await response.json();
+          setUser(user);
+          setStatus("authenticated");
+        } catch (error) {
+          setStatus("unauthenticated");
+        }
+      } else {
         setStatus("unauthenticated");
       }
-    } else {
+    } catch (error) {
       setStatus("unauthenticated");
     }
   };
