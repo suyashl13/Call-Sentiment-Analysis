@@ -24,16 +24,21 @@ export default function AuthProvider({
   >("loading");
 
   const fetchUser = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URI}/auth/profile`,
-      {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    let response: Promise<Response> | any;
+    try {
+      response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URI}/auth/profile`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (error) {
+      setStatus("unauthenticated");
+    }
 
     if (response.ok) {
       try {

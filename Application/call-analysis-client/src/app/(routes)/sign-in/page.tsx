@@ -48,6 +48,7 @@ export default function SimpleCard() {
                 shadow='sm'
                 p={5}
                 w={"full"}
+                colorScheme="telegram"
                 maxW={"md"}
                 variant={"outline"}
                 leftIcon={<FcGoogle />}
