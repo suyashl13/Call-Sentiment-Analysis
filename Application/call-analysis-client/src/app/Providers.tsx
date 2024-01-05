@@ -1,15 +1,13 @@
-'use client'
+"use client";
 
-import React from 'react'
-import {NextUIProvider} from "@nextui-org/react";
-import AuthProvider from './_providers/AuthProvider';
+import React from "react";
+import AuthProvider from "./_providers/AuthProvider";
+import { ChakraProvider } from "@chakra-ui/react";
 
-export default function Providers({children}: {children: React.ReactNode}) {
+export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <NextUIProvider>
-      <AuthProvider>
-        {children}
-      </AuthProvider>
-    </NextUIProvider>
-  )
+    <ChakraProvider>
+      <AuthProvider>{children}</AuthProvider>
+    </ChakraProvider>
+  );
 }

@@ -1,27 +1,65 @@
-import { signIn } from "@/actions";
-import { Button } from "@nextui-org/react";
-import React from "react";
-import Logo from '@/../public/assets/logo.png'
-import Image from "next/image";
+"use client";
+
+import { handleGoogleLogin } from "@/actions/auth-action";
+
+import {
+  Flex,
+  Stack,
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
+  Center,
+  Divider,
+  Image,
+} from "@chakra-ui/react";
+import logo from "@/../public/assets/logo.png";
 import { FcGoogle } from "react-icons/fc";
 
-export default function SignInPage() {
+export default function SimpleCard() {
   return (
-    <div className="flex items-center justify-center flex-col h-[100vh]">
-      <div className="flex">
-        <center className="w-80 h-90 flex flex-col items-center justify-center border-r-1 border-gray-100">
-        <h3 className="text-3xl font-extrabold my-6">Call Sentiment Analysis - SSO</h3>
-        <hr/>
-          <form action={signIn}>
-            <Button size="lg"  type="submit" variant="solid" color="primary">
-              <span className="bg-white p-1 rounded-xl shadow-md"><FcGoogle/></span> Signin With Google
-            </Button>
+    <Flex
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+    >
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Image src={logo.src} mb={-200} mt={-200} alt={""} />
+        <Stack align={"center"}>
+          <Divider />
+          <Heading fontSize={"4xl"} mt={2}>
+            Sign in to your account
+          </Heading>
+          <Text fontSize={"lg"} color={"gray.600"}>
+            to enjoy all of our cool{" "}
+            <Text as="span" color={"blue.400"}>
+              features
+            </Text>{" "}
+            ✌️
+          </Text>
+        </Stack>
+        <Center>
+          <form action={handleGoogleLogin}>
+            <Center>
+              <Button
+              type='submit'
+                bgColor={"white"}
+                shadow='sm'
+                p={5}
+                w={"full"}
+                maxW={"md"}
+                variant={"outline"}
+                leftIcon={<FcGoogle />}
+              >
+                <Center>
+                  <Text>Sign in with Google</Text>
+                </Center>
+              </Button>
+            </Center>
           </form>
-        </center>
-        <center className="w-80 border-l-1 h-90 border-gray-100">
-            <Image src={Logo} alt="Logo" width={1000} height={300} />
-        </center>
-      </div>
-    </div>
+        </Center>
+      </Stack>
+    </Flex>
   );
 }

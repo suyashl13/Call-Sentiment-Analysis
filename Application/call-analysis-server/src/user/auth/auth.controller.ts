@@ -65,7 +65,8 @@ export class AuthController {
     const refreshToken = req.cookies["refresh_token"];
     res.clearCookie("access_token");
     res.clearCookie("refresh_token");
+    res.clearCookie("jwt");
     this.authService.revokeGoogleToken(refreshToken);
-    res.redirect("http://localhost:3000/");
+    res.json({ success: true });
   }
 }

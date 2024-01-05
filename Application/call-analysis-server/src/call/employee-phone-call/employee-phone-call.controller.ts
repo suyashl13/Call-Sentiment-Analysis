@@ -7,7 +7,7 @@ import { AuthorizationGuard } from "src/common/guards/authorization.guard";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { User } from "src/common/types";
 
-@Controller("employee-phone-call")
+@Controller("employee/phone-call")
 @UseGuards(AuthenticationGuard, CheckTokenExpiryGuard)
 @UseGuards(new AuthorizationGuard(1))
 export class EmployeePhoneCallController {

@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser'
+import * as morgan from 'morgan';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +15,7 @@ async function bootstrap() {
     origin: 'http://localhost:3300',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   });
+  app.use(morgan('tiny'));
   await app.listen(3000);
 }
 bootstrap();
