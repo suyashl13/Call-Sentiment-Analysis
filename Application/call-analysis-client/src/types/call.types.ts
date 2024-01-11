@@ -2,7 +2,7 @@ export interface CreateCallInterface {
   customerName: string;
   customerPhone: string;
   callRecordingUrl: string;
-  callType: CallType;
+  callType: CallType | null;
   callDateTime: Date;
 }
 
