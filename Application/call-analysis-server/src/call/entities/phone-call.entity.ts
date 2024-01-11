@@ -1,4 +1,5 @@
 import { Length } from "class-validator";
+import { CallType } from "src/common/types";
 import { User } from "src/user/user.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -28,6 +29,9 @@ export class PhoneCall {
 
     @Column({ name: 'call_duration', nullable: true, default: null })
     generatedCallSentiment: string
+
+    @Column({ name: 'call_type', default: CallType.OUTGOING })
+    callType: CallType
 
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date

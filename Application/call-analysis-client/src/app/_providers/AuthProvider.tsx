@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { User } from "@/types/user.types";
-import React from "react";
+import React, { useCallback } from "react";
 
 interface UserContextType {
   user: User | null;
@@ -23,7 +24,7 @@ export default function AuthProvider({
     "unauthenticated" | "loading" | "authenticated"
   >("loading");
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URI}/auth/profile`,
@@ -50,7 +51,7 @@ export default function AuthProvider({
     } catch (error) {
       setStatus("unauthenticated");
     }
-  };
+  }, []);
 
   React.useEffect(() => {
     fetchUser();

@@ -3,11 +3,16 @@
 import React from "react";
 import AuthProvider from "./_providers/AuthProvider";
 import { ChakraProvider } from "@chakra-ui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ChakraProvider>
-      <AuthProvider>{children}</AuthProvider>
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider>
+        <AuthProvider>{children}</AuthProvider>
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 }
