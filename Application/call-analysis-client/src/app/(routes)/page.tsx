@@ -1,5 +1,5 @@
 import { signIn } from '@/actions'
-import { Button } from '@nextui-org/button'
+import { Button } from '@chakra-ui/react'
 
 export default function Home() {
   return (

@@ -11,10 +11,10 @@ import {
   useColorModeValue,
   Center,
   Divider,
-  Image,
 } from "@chakra-ui/react";
 import logo from "@/../public/assets/logo.png";
 import { FcGoogle } from "react-icons/fc";
+import Image from 'next/image'
 
 export default function SimpleCard() {
   return (
@@ -24,8 +24,8 @@ export default function SimpleCard() {
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Image src={logo.src} mb={-200} mt={-200} alt={""} />
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} align='center' py={12} px={6}>
+        <Image src={logo} alt={"brand-logo"} />
         <Stack align={"center"}>
           <Divider />
           <Heading fontSize={"4xl"} mt={2}>

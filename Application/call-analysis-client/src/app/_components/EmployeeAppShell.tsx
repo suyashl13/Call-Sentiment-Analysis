@@ -2,42 +2,32 @@
 import {
   Avatar,
   Box,
-  Collapse,
   Drawer,
   DrawerContent,
   DrawerOverlay,
   Flex,
   Icon,
   IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   Spinner,
   Text,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import {
-  FaBell,
-  FaDoorClosed,
-  FaHome,
-  FaPhone,
-  FaPhoneSquareAlt,
-  FaPlus,
-} from "react-icons/fa";
-import {
-  FiHome,
-  FiLogOut,
-  FiMenu,
-  FiPhone,
-  FiPhoneCall,
-  FiPlus,
-  FiSearch,
-} from "react-icons/fi";
+
+import { FiHome, FiLogOut, FiMenu, FiPhone, FiPlus } from "react-icons/fi";
 import { useAuth } from "../_providers/AuthProvider";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import logo from "@/../public/assets/logo.png";
 
 export const EmployeeShell = ({ children }: { children: React.ReactNode }) => {
   const sidebar = useDisclosure();
@@ -106,17 +96,12 @@ export const EmployeeShell = ({ children }: { children: React.ReactNode }) => {
       {...props}
     >
       <Flex px="4" py="5" align="center">
-        <Text
-          fontSize="2xl"
-          ml="2"
-          color="brand.500"
-          _dark={{
-            color: "white",
-          }}
-          fontWeight="semibold"
-        >
-          Employee Dashboard
-        </Text>
+        <Image
+          alt="brand-logo"
+          width={150}
+          style={{ marginLeft: "0.6rem" }}
+          src={logo}
+        />
       </Flex>
       <Flex
         direction="column"
@@ -138,7 +123,7 @@ export const EmployeeShell = ({ children }: { children: React.ReactNode }) => {
           <NavItem
             onClick={async function () {
               try {
-                await fetch("http://localhost:3000/auth/logout", {
+                await fetch(`${process.env.NEXT_PUBLIC_BASE_URI}/auth/logout`, {
                   credentials: "include",
                   method: "GET",
                 });
@@ -215,22 +200,48 @@ export const EmployeeShell = ({ children }: { children: React.ReactNode }) => {
           <Box>
             {status !== "loading" ? (
               <Text>
-                Hi,{" "}
                 <Text fontWeight="bold" as="span">
-                  {user?.name}
+                  Employee Panel
                 </Text>
               </Text>
             ) : null}
           </Box>
           <Flex align="center">
             {status === "authenticated" ? (
-              <Avatar
-                ml="4"
-                size="sm"
-                name="anubra266"
-                src={user?.profilePicture || "https://bit.ly/dan-abramov"}
-                cursor="pointer"
-              />
+              <Popover>
+                <PopoverTrigger>
+                  <Avatar
+                    ml="4"
+                    size="sm"
+                    name="profile-avatar"
+                    src={user?.profilePicture ?? "https://bit.ly/dan-abramov"}
+                    cursor="pointer"
+                  />
+                </PopoverTrigger>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverHeader>
+                    <Text fontWeight="bold">{user?.name}</Text>
+                  </PopoverHeader>
+                  <PopoverBody>
+                    <Flex flexDir='row' justify='space-between'>
+                    <Text fontSize="small">{user?.email}</Text>
+                    <Text color={!user
+                        ? "red"
+                        : user.isActive
+                        ? "green"
+                        : "red"} fontSize="small">
+                      {!user
+                        ? "Loading"
+                        : user.isActive
+                        ? "Active"
+                        : "Not Active"}
+                    </Text>
+                    </Flex>
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
             ) : (
               <Spinner />
             )}
