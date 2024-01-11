@@ -7,6 +7,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./user.entity";
 import { CurrentUserMiddleware } from "./middlewares/current-user.middleware";
 import { JwtModule } from "@nestjs/jwt";
+import { AdminUserService } from './admin-user/admin-user.service';
+import { EmployeeUserService } from './employee-user/employee-user.service';
+import { AdminUserController } from './admin-user/admin-user.controller';
+import { EmployeeUserController } from './employee-user/employee-user.controller';
 
 @Module({
   imports: [
@@ -17,8 +21,8 @@ import { JwtModule } from "@nestjs/jwt";
       signOptions: { expiresIn: "1d" },
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, GoogleAuthService, UserService],
+  controllers: [AuthController, AdminUserController, EmployeeUserController],
+  providers: [AuthService, GoogleAuthService, UserService, AdminUserService, EmployeeUserService],
   exports: [AuthService, UserService],
 })
 export class UserModule {
