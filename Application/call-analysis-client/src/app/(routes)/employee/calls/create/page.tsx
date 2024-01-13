@@ -235,7 +235,6 @@ export default function CreateCallPage() {
             <FormLabel>Call Type</FormLabel>
             <InputGroup>
               <Select
-                value={createCallFormikObject.values.callType as any}
                 onChange={createCallFormikObject.handleChange}
                 name="callType"
                 placeholder="Select Call Type"

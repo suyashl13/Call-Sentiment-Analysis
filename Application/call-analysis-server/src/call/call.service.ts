@@ -33,4 +33,8 @@ export class CallService {
       },
     });
   }
+
+  async getPhoneCallCountByUserId(id: string) {
+    return this.phoneCallRepository.count({ where: { createdBy: { id: id } } });
+  }
 }
