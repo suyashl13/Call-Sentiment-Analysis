@@ -31,6 +31,14 @@ export class EmployeePhoneCallController {
     return this.callService.createPhoneCall(phoneCall, user.id);
   }
 
+  getFilteredPhoneCalls(
+    @Query() params: PageParamsDto,
+    @Request() req: ExpressRequest,
+    @CurrentUser() currentUser: User
+  ) {
+    
+  }
+
   @Get()
   async getPhoneCalls(
     @CurrentUser() currentUser: User,

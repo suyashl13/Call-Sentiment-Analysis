@@ -6,14 +6,14 @@ import React from 'react'
 
 export default function CallListEmployeeTable({ calls }:{ calls: ResponseCallInterface[] }) {
   return (
-    <Table bgColor='white' shadow='sm' borderRadius='md'>
+    <Table bgColor='white' shadow='sm' borderRadius='md' variant='simple'>
       <Thead>
-        <Th>Cust. Name</Th>
-        <Th>Cust. Phone</Th>
-        <Th>Call Type</Th>
-        <Th>Call Date</Th>
-        <Th>Sentiment</Th>
-        <Th>Status</Th>
+        <Th fontWeight='bold'>Cust. Name</Th>
+        <Th fontWeight='bold'>Cust. Phone</Th>
+        <Th fontWeight='bold'>Call Type</Th>
+        <Th fontWeight='bold'>Call Date</Th>
+        <Th fontWeight='bold'>Sentiment</Th>
+        <Th fontWeight='bold'>Status</Th>
       </Thead>
       <Tbody>
         {calls?.map((call) => (
@@ -23,7 +23,7 @@ export default function CallListEmployeeTable({ calls }:{ calls: ResponseCallInt
             <Td>{call.callType[0]}{call.callType.toLocaleLowerCase().slice(1)}</Td>
             <Td>{call.callDateTime.toLocaleString()}</Td>
             <Td>{call.generatedCallSentiment}</Td>
-            <Td>{call.callRecordingStatus}</Td>
+            <Td>{call.callRecordingStatus.slice(0, 1).toUpperCase()}{call.callRecordingStatus.slice(1)}</Td>
           </Tr>
         ))}
       </Tbody>
