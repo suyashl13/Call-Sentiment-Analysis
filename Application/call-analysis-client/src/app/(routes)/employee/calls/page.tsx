@@ -14,7 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { startTransition, useEffect, useState } from "react";
 
 export default function EmployeeCallsPage() {
   const [page, setPage] = React.useState<number>(0);
@@ -32,8 +32,9 @@ export default function EmployeeCallsPage() {
     initialPageParam: null,
     getNextPageParam: (lastPage) => lastPage.paging.next,
     getPreviousPageParam: (lastPage) => lastPage.paging.previous,
-    refetchOnReconnect: false,
+    refetchOnReconnect: true,
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   if (isError) {
@@ -48,7 +49,9 @@ export default function EmployeeCallsPage() {
         </Text>
         <HStack mb={1}>
           <Input size="sm" borderRadius="md" type="date" />
-          <Text fontSize="small" fontWeight='semibold'>To</Text>
+          <Text fontSize="small" fontWeight="semibold">
+            To
+          </Text>
           <Input size="sm" borderRadius="md" type="date" />
         </HStack>
       </Flex>
