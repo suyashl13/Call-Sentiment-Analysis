@@ -36,7 +36,8 @@ export class EmployeePhoneCallController {
     @Request() req: ExpressRequest,
     @CurrentUser() currentUser: User
   ) {
-    
+      // TODO: Add filter
+    return this.getPhoneCalls(currentUser, params, req);
   }
 
   @Get()

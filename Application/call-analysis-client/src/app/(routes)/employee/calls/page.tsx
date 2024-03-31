@@ -14,7 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { startTransition, useEffect, useState } from "react";
+import React from "react";
 
 export default function EmployeeCallsPage() {
   const [page, setPage] = React.useState<number>(0);
