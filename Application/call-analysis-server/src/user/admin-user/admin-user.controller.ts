@@ -9,28 +9,25 @@ import { SearchEmployeeDto } from '../dtos/search-user-dto';
 @UseGuards(new AuthorizationGuard(0))
 @Controller('admin-user')
 export class AdminUserController {
-
-    constructor(private readonly usersServices: UserService) {
-    }
+    constructor(private readonly usersServices: UserService) {}
 
     @Get("/all-employees")
     async findAll() {
         return await this.usersServices.findAllEmployees();
-    }
+    } 
 
     @Patch("/change-active-status/:id")
-    async changeRole(@Query("id") id: string, @Body("role") role: number) {
-        return await this.usersServices.changeActiveStatus(id, role);
+    async changeActiveStatus(@Param('id') id: string) {
+        return await this.usersServices.changeActiveStatus(id);
     }
 
-    @Get("/profile")
+    @Get("/employee/:id")
     async getProfile(@Query("id") id: string) {
         return await this.usersServices.findOne(id);
     }
 
     @Get("/search-employee")
-    async searchEmployee(@Param() email: SearchEmployeeDto) {
-        
+    async searchEmployee(@Query() searchQueryParams: SearchEmployeeDto) {
+        return this.usersServices.searchEmployee(searchQueryParams);
     }
-
 }

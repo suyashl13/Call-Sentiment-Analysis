@@ -20,35 +20,53 @@ import {
 import * as yup from "yup";
 import { useFormik } from "formik";
 import React from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function CreateCallPage() {
   const toast = useToast();
+  const queryClient = useQueryClient();
   const { mutateAsync } = useMutation({
-    mutationFn: (callDetails: CreateCallInterface) =>
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URI}/employee/phone-call`, {
+    mutationFn: (callDetails: CreateCallInterface) => {
+      const formValues = new FormData();
+      
+      console.log(typeof callDetails.callRecordingUrl)
+
+      formValues.append("customerName", callDetails.customerName);
+      formValues.append("customerPhone", callDetails.customerPhone);
+      formValues.append("callRecordingUrl", callDetails.callRecordingUrl);
+      formValues.append("callType", callDetails.callType as string);
+      formValues.append("callDateTime", callDetails.callDateTime as any);
+
+      return fetch(`${process.env.NEXT_PUBLIC_BASE_URI}/employee/phone-call`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "Content-Type: multipart/form-data",
         },
         credentials: "include",
-        body: JSON.stringify({
-          customerName: callDetails.customerName,
-          customerPhone: callDetails.customerPhone,
-          callRecordingUrl: callDetails.callRecordingUrl,
-          callType: callDetails.callType,
-          callDateTime: callDetails.callDateTime,
-        }),
-      }),
+        body: formValues,
+      })},
     onSuccess: async (data) => {
-      console.log(await data.json());
-      toast({
-        title: "Call Created",
-        description: "Call Created Successfully",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
+      const result = await data.json();
+      if (!Object.keys(result).includes('callType')) {
+        toast({
+          title: "Call Creation Failed",
+          description: `Call Creation Failed`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+
+      } else {
+        toast({
+          title: "Call Created",
+          description: "Call Created Successfully",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+
+        queryClient.invalidateQueries({ queryKey: ["calls"] });
+      }
     },
     onError: (error) => {
       toast({
@@ -65,7 +83,7 @@ export default function CreateCallPage() {
     initialValues: {
       customerName: "",
       customerPhone: "",
-      callRecordingUrl: "",
+      callRecordingUrl: null,
       callType: null,
       callDateTime: new Date(Date.now()),
     },
@@ -76,7 +94,7 @@ export default function CreateCallPage() {
         .required("Required")
         .matches(/^[0-9]+$/, "Must be only digits")
         .length(10, "Must be exactly 10 digits"),
-      callRecordingUrl: yup.string().required("Required"),
+      callRecordingUrl: yup.string(),
       callType: yup
         .string()
         .required("Required")
@@ -84,7 +102,8 @@ export default function CreateCallPage() {
       callDateTime: yup.string().required("Required"),
     }),
     onSubmit: (values: CreateCallInterface, { resetForm }) => {
-      console.log("first");
+      console.log(JSON.stringify(values));
+      
       mutateAsync(values).then(() => {
         resetForm();
       });
@@ -195,7 +214,14 @@ export default function CreateCallPage() {
               type="file"
               name="callRecordingUrl"
               w="100%"
-              onChange={createCallFormikObject.handleChange}
+              onChange={
+                (e: any) => {
+                  console.log("jaskdfakjsbfk");
+                  
+                  console.log(e.target.files[0]);
+                  createCallFormikObject.setFieldValue("callRecordingUrl", e.target.files[0]);
+                }
+              }
               p="2"
               borderColor="grey.100"
               borderRadius="md"
@@ -219,7 +245,7 @@ export default function CreateCallPage() {
               placeholder="Suyash"
             />
             <FormErrorMessage>
-              {createCallFormikObject.errors.callRecordingUrl}
+              {createCallFormikObject.errors.callRecordingUrl as string}
             </FormErrorMessage>
           </FormControl>
           <FormControl

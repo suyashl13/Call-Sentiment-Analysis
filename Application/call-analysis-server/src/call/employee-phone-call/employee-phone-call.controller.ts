@@ -5,7 +5,10 @@ import {
   Post,
   Query,
   Request,
+  UnauthorizedException,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from "@nestjs/common";
 import { CallService } from "../call.service";
 import { CreatePhoneCallDto } from "../dtos/create-phone-call.dto";
@@ -14,8 +17,11 @@ import { CheckTokenExpiryGuard } from "src/common/guards/check-token-expiry.guar
 import { AuthorizationGuard } from "src/common/guards/authorization.guard";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { User } from "src/common/types";
-import { PageParamsDto } from "../dtos/page-params.dto";
+import { PageParamsDto } from "../../common/dtos/page-params.dto";
 import { Request as ExpressRequest } from "express";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { extname } from "path";
 
 @Controller("employee/phone-call")
 @UseGuards(AuthenticationGuard, CheckTokenExpiryGuard)
@@ -24,11 +30,34 @@ export class EmployeePhoneCallController {
   constructor(private callService: CallService) {}
 
   @Post()
+  @UseInterceptors(FileInterceptor("callRecordingUrl", {
+    storage: diskStorage({
+      destination: "./uploads",
+      filename: (req, file, cb) => {
+        const randomName = Array(32)
+          .fill(null)
+          .map(() => Math.round(Math.random() * 16).toString(16))
+          .join("");
+        return cb(null, `${randomName}${extname(file.originalname)}`);
+      },
+    }),
+  }))
   async createPhoneCall(
     @Body() phoneCall: CreatePhoneCallDto,
+    @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: User
   ) {
-    return this.callService.createPhoneCall(phoneCall, user.id);
+    console.log(file, phoneCall);
+
+    if (!user.isActive) {
+      throw new UnauthorizedException("User is not active");
+    }
+    phoneCall.callRecordingUrl = file.path;
+    const savedPhoneCall = await this.callService.createPhoneCall(
+      phoneCall,
+      user.id
+    );
+    return savedPhoneCall;
   }
 
   getFilteredPhoneCalls(
@@ -36,7 +65,7 @@ export class EmployeePhoneCallController {
     @Request() req: ExpressRequest,
     @CurrentUser() currentUser: User
   ) {
-      // TODO: Add filter
+    // TODO: Add filter
     return this.getPhoneCalls(currentUser, params, req);
   }
 

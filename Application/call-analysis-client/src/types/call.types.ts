@@ -4,7 +4,7 @@ import { User } from "./user.types";
 export interface CreateCallInterface {
   customerName: string;
   customerPhone: string;
-  callRecordingUrl: string;
+  callRecordingUrl: any;
   callType: CallType | null;
   callDateTime: Date;
 }
@@ -22,6 +22,7 @@ export interface ResponseCallInterface {
   callType: CallType;
   callDateTime: Date;
   callRecordingStatus: string
+  predictionResult: string
   generatedCallSentiment: string
   createdBy: User;
   createdAt: Date;

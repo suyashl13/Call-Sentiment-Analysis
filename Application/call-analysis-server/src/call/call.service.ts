@@ -37,4 +37,26 @@ export class CallService {
   async getPhoneCallCountByUserId(id: string) {
     return this.phoneCallRepository.count({ where: { createdBy: { id: id } } });
   }
+
+  async getAllPhoneCalls() {
+    return await this.phoneCallRepository.find({
+      select:{
+        id: true,
+        customerName: true,
+        customerPhone: true,
+        callRecordingUrl: true,
+        callDateTime: true,
+        callRecordingStatus: true,
+        generatedCallSentiment: true,
+        predictionResult: true,
+        callType: true,
+        createdAt: true,
+        updatedAt: true,
+        createdBy: {
+          id: true,
+          name: true
+        }
+      }
+    });
+  }
 }

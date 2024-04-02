@@ -24,8 +24,12 @@ export class PhoneCall {
     @Column({ name: 'call_date_time' })
     callDateTime: Date
 
+
     @Column({ name: 'call_status' })
     callRecordingStatus: string
+
+    @Column({ name: 'call_sentiment', default: null })
+    predictionResult: string
 
     @Column({ name: 'call_duration', nullable: true, default: null })
     generatedCallSentiment: string

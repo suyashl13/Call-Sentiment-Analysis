@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-import { FiHome, FiLogOut, FiMenu, FiPhone, FiPlus } from "react-icons/fi";
+import { FiHome, FiLogOut, FiMenu, FiPhoneCall, FiUser } from "react-icons/fi";
 import { useAuth } from "../_providers/AuthProvider";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -110,14 +110,14 @@ export const AdminShell = ({ children }: { children: React.ReactNode }) => {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <Link href="/employee">
+        <Link href="/admin">
           <NavItem icon={FiHome}>Home</NavItem>
         </Link>
-        <Link href="/employee/calls">
-          <NavItem icon={FiPhone}>See Calls</NavItem>
+        <Link href="/admin/employees">
+          <NavItem icon={FiUser}>Employee Management</NavItem>
         </Link>
-        <Link href="/employee/calls/create">
-          <NavItem icon={FiPlus}>Add Call</NavItem>
+        <Link href="/admin/calls">
+          <NavItem icon={FiPhoneCall}>Calls</NavItem>
         </Link>
         <Box color="red.500">
           <NavItem
@@ -201,7 +201,7 @@ export const AdminShell = ({ children }: { children: React.ReactNode }) => {
             {status !== "loading" ? (
               <Text>
                 <Text fontWeight="bold" as="span">
-                  Employee Panel
+                  Admin Panel
                 </Text>
               </Text>
             ) : null}
