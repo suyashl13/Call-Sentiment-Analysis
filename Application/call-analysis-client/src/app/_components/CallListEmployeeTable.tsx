@@ -13,13 +13,11 @@ import {
   Table,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import Link from "next/link";
 import React from "react";
 import { PieChart } from "react-minimal-pie-chart";
 
@@ -44,7 +42,6 @@ export default function CallListEmployeeTable({
           <Th fontWeight="bold">Call Type</Th>
           <Th fontWeight="bold">Call Date</Th>
           <Th fontWeight="bold">Status</Th>
-          <Th></Th>
         </Thead>
         <Tbody>
           {calls?.map((call) => (
@@ -62,7 +59,11 @@ export default function CallListEmployeeTable({
               </Td>
               <Td>
                 <Button
-                  colorScheme={ call.callRecordingStatus.toLocaleLowerCase() !== "pending" ? 'blue' :  'red' }
+                  colorScheme={
+                    call.callRecordingStatus.toLocaleLowerCase() !== "pending"
+                      ? "blue"
+                      : "red"
+                  }
                   onClick={() => {
                     if (
                       call.callRecordingStatus.toLocaleLowerCase() !== "pending"
@@ -135,6 +136,19 @@ export default function CallListEmployeeTable({
             </AlertDialogBody>
 
             <AlertDialogFooter>
+              <Button
+                colorScheme="blue"
+                onClick={() => {
+                  window.open(
+                    `${process.env.NEXT_PUBLIC_BASE_URI}/${selectedCall?.callRecordingUrl}`,
+                    "_blank"
+                  );
+                  onClose();
+                }}
+                ml={3}
+              >
+                Play Audio
+              </Button>
               <Button colorScheme="blue" onClick={onClose} ml={3}>
                 Okay
               </Button>

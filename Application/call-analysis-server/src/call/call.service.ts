@@ -7,7 +7,7 @@ import { Repository } from "typeorm";
 export class CallService {
   constructor(
     @InjectRepository(PhoneCall)
-    private phoneCallRepository: Repository<PhoneCall>
+    private readonly phoneCallRepository: Repository<PhoneCall>
   ) {}
 
   async createPhoneCall(phoneCall: Partial<PhoneCall>, userId: string) {
@@ -28,6 +28,17 @@ export class CallService {
       where: { createdBy: { id: userId } },
       skip: (page - 1) * limit,
       take: limit,
+      relations: {
+        createdBy: true,
+      },
+    });
+  }
+
+  async getPhoneCallsByUserIdWithoutPagging(
+    userId: string,
+  ) {
+    return this.phoneCallRepository.find({
+      where: { createdBy: { id: userId } },
       relations: {
         createdBy: true,
       },

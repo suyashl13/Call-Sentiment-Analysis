@@ -51,7 +51,7 @@ export default function EmployeeList({
               </HStack>
             </Td>
             <Td>{employee.isActive ? "Active" : "Disabled"}</Td>
-            <Td alignItems="end">{showCallsColumn ? <Link href={`/employee/${employee.id}`}><Text color={'blue.500'}>See Calls</Text></Link> : <SwitchEmployeeStatusButton 
+            <Td alignItems="end">{showCallsColumn ? <Link href={`calls/emp/${employee.id}`}><Text color={'blue.500'}>See Calls</Text></Link> : <SwitchEmployeeStatusButton 
             bgColor={employee.isActive ? "red.500" : "green.500"}
             employeeId={employee.id} buttonText={employee.isActive ? "Disable" : "Enable"} />}</Td>
           </Tr>

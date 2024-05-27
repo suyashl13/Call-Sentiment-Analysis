@@ -7,9 +7,15 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./user/user.entity";
 import { CallModule } from './call/call.module';
 import { PhoneCall } from "./call/entities/phone-call.entity";
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from "path";
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads/',
+    }),
     UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
